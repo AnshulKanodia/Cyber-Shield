@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+.env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+cyber_shield.log
+
+# Models (large binary files)
+models/*.joblib
+
+# Datasets (large CSV files)
+datasets/*.csv
+
+# Project files/reports (PDFs, docs)
+files/
+
+# Reports (generated images)
+# reports/

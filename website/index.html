@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber Shield — AI-Powered Cyberbullying Detection</title>
+  <meta name="description" content="Detect cyberbullying, toxicity, spam, and scams in real-time using advanced machine learning. Paste text and get instant analysis with confidence scores.">
+  <meta name="keywords" content="cyberbullying detection, text analysis, NLP, machine learning, online safety">
+  <meta name="theme-color" content="#06060f">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Effects -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow--1"></div>
+  <div class="bg-glow bg-glow--2"></div>
+  <div class="bg-glow bg-glow--3"></div>
+
+  <!-- ═══ Navbar ═══ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo">
+      <span class="nav-logo-icon">🛡️</span>
+      <span class="nav-logo-text">Cyber Shield</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#analyzer">Analyze</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#extension">Extension</a></li>
+    </ul>
+    <div class="nav-status">
+      <span class="nav-status-dot" id="statusDot"></span>
+      <span id="statusText">Checking...</span>
+    </div>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">☰</button>
+  </nav>
+
+  <!-- ═══ Hero Section ═══ -->
+  <section class="hero" id="hero">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      ML-Powered Real-Time Detection
+    </div>
+
+    <div class="hero-shield">🛡️</div>
+
+    <h1 class="hero-title">
+      Protect Against<br>
+      <span class="gradient">Cyberbullying</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      Advanced NLP and machine learning to detect bullying, toxicity, spam, and scams in text — instantly and accurately.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#analyzer" class="btn btn-primary btn-lg" id="heroAnalyze">
+        <span>Start Analyzing</span>
+        <span class="btn-icon">→</span>
+      </a>
+      <a href="#how-it-works" class="btn btn-secondary btn-lg">
+        <span>How It Works</span>
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-value">5</div>
+        <div class="hero-stat-label">Categories</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">3</div>
+        <div class="hero-stat-label">ML Models</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value" id="statAnalyses">0</div>
+        <div class="hero-stat-label">Analyzed</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value" id="statModel">—</div>
+        <div class="hero-stat-label">Active Model</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Analyzer Section ═══ -->
+  <section class="section analyzer" id="analyzer">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div class="section-label">🔍 Text Analyzer</div>
+        <h2 class="section-title">Analyze Any Text</h2>
+        <p class="section-subtitle">Paste or type text below and get instant classification with detailed confidence scores.</p>
+      </div>
+
+      <div class="analyzer-container">
+        <!-- Input Panel -->
+        <div class="analyzer-input reveal reveal-delay-1">
+          <div class="analyzer-input-header">
+            <span class="analyzer-input-title">Input Text</span>
+            <span class="analyzer-char-count" id="charCount">0 chars</span>
+          </div>
+
+          <textarea
+            id="analyzerInput"
+            class="analyzer-textarea"
+            placeholder="Paste or type any text you want to analyze for cyberbullying, toxicity, spam, or scams..."
+            rows="8"
+            spellcheck="false"
+          ></textarea>
+
+          <div class="analyzer-actions">
+            <div class="analyzer-actions-left">
+              <button class="btn-clear-input" id="btnClearInput" title="Clear text">✕</button>
+            </div>
+            <button class="btn-analyze" id="btnAnalyze" disabled>
+              <span>Analyze</span>
+              <span class="arrow">→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Result Panel -->
+        <div class="analyzer-result reveal reveal-delay-2">
+          <div class="analyzer-result-header">Analysis Result</div>
+
+          <!-- Empty state -->
+          <div class="result-empty" id="resultEmpty">
+            <div class="result-empty-icon">🔍</div>
+            <p class="result-empty-text">
+              Paste text and click <strong>Analyze</strong> to detect cyberbullying,
+              toxicity, spam, and scams.
+            </p>
+          </div>
+
+          <!-- Loading state -->
+          <div class="result-loading hide" id="resultLoading">
+            <div class="spinner-lg"></div>
+            <p class="result-loading-text">Analyzing with ML model...</p>
+          </div>
+
+          <!-- Result card -->
+          <div class="result-card hide" id="resultCard">
+            <!-- Verdict -->
+            <div class="verdict" id="verdict">
+              <span class="verdict-icon" id="verdictIcon">✅</span>
+              <div class="verdict-info">
+                <div class="verdict-label" id="verdictLabel">Safe</div>
+                <div class="verdict-sublabel" id="verdictSub">No threats detected</div>
+              </div>
+            </div>
+
+            <!-- Confidence -->
+            <div class="confidence-section">
+              <div class="confidence-header">
+                <span class="confidence-label">Confidence</span>
+                <span class="confidence-value" id="confidenceValue">0%</span>
+              </div>
+              <div class="confidence-bar">
+                <div class="confidence-fill" id="confidenceFill" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <!-- Category Breakdown -->
+            <div class="categories">
+              <div class="category-item" data-cat="safe">
+                <span class="cat-dot safe"></span>
+                <span class="cat-name">Safe</span>
+                <div class="cat-bar-wrapper"><div class="cat-bar-fill safe" id="barSafe" style="width: 0%"></div></div>
+                <span class="cat-score" id="scoreSafe">—</span>
+              </div>
+              <div class="category-item" data-cat="bullying">
+                <span class="cat-dot bullying"></span>
+                <span class="cat-name">Bullying</span>
+                <div class="cat-bar-wrapper"><div class="cat-bar-fill bullying" id="barBullying" style="width: 0%"></div></div>
+                <span class="cat-score" id="scoreBullying">—</span>
+              </div>
+              <div class="category-item" data-cat="toxic">
+                <span class="cat-dot toxic"></span>
+                <span class="cat-name">Toxic</span>
+                <div class="cat-bar-wrapper"><div class="cat-bar-fill toxic" id="barToxic" style="width: 0%"></div></div>
+                <span class="cat-score" id="scoreToxic">—</span>
+              </div>
+              <div class="category-item" data-cat="spam">
+                <span class="cat-dot spam"></span>
+                <span class="cat-name">Spam</span>
+                <div class="cat-bar-wrapper"><div class="cat-bar-fill spam" id="barSpam" style="width: 0%"></div></div>
+                <span class="cat-score" id="scoreSpam">—</span>
+              </div>
+              <div class="category-item" data-cat="scam">
+                <span class="cat-dot scam"></span>
+                <span class="cat-name">Scam</span>
+                <div class="cat-bar-wrapper"><div class="cat-bar-fill scam" id="barScam" style="width: 0%"></div></div>
+                <span class="cat-score" id="scoreScam">—</span>
+              </div>
+            </div>
+
+            <!-- Analyzed text preview -->
+            <div class="analyzed-preview">
+              <span class="analyzed-preview-label">Analyzed:</span>
+              <span class="analyzed-preview-text" id="analyzedText"></span>
+            </div>
+          </div>
+
+          <!-- Error state -->
+          <div class="result-error hide" id="resultError">
+            <div class="result-error-icon">⚠️</div>
+            <p class="result-error-title" id="errorTitle">Cannot connect to API</p>
+            <p class="result-error-hint">
+              Make sure the API server is running:<br>
+              <code>python api/server.py</code>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Features Section ═══ -->
+  <section class="section" id="features">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div class="section-label">⚡ Features</div>
+        <h2 class="section-title">Powerful Detection Engine</h2>
+        <p class="section-subtitle">Combining machine learning with rule-based pattern detection for maximum accuracy.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-icon purple">🧠</div>
+          <h3 class="feature-title">3 ML Models</h3>
+          <p class="feature-desc">SVM, Random Forest, and XGBoost trained on 230K+ labeled samples with comprehensive evaluation.</p>
+        </div>
+
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-icon green">⚡</div>
+          <h3 class="feature-title">Real-Time Analysis</h3>
+          <p class="feature-desc">Get instant predictions with confidence scores. Average response time under 50ms per text.</p>
+        </div>
+
+        <div class="feature-card reveal reveal-delay-3">
+          <div class="feature-icon orange">🎯</div>
+          <h3 class="feature-title">5 Categories</h3>
+          <p class="feature-desc">Detects bullying, toxicity, spam, scams, and safe content with granular category breakdown.</p>
+        </div>
+
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-icon pink">🔍</div>
+          <h3 class="feature-title">Pattern Detection</h3>
+          <p class="feature-desc">80+ threat patterns catch indirect bullying, coded language, and sarcastic harassment the ML model might miss.</p>
+        </div>
+
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-icon blue">🌐</div>
+          <h3 class="feature-title">Browser Extension</h3>
+          <p class="feature-desc">Chrome extension with right-click analysis on any webpage. Works on Twitter, YouTube, Reddit & more.</p>
+        </div>
+
+        <div class="feature-card reveal reveal-delay-3">
+          <div class="feature-icon teal">📊</div>
+          <h3 class="feature-title">NLP Pipeline</h3>
+          <p class="feature-desc">Advanced text preprocessing — slang normalization, emoji handling, contraction expansion, and TF-IDF vectorization.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ How It Works ═══ -->
+  <section class="section how-it-works" id="how-it-works">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div class="section-label">📋 Process</div>
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">Three simple steps to analyze any text for harmful content.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card reveal reveal-delay-1">
+          <div class="step-number">1</div>
+          <div class="step-icon">📝</div>
+          <h3 class="step-title">Paste Text</h3>
+          <p class="step-desc">Enter any text you want to analyze — social media posts, comments, messages, or any content.</p>
+        </div>
+
+        <div class="step-card reveal reveal-delay-2">
+          <div class="step-number">2</div>
+          <div class="step-icon">🧠</div>
+          <h3 class="step-title">ML Analysis</h3>
+          <p class="step-desc">Our trained model preprocesses the text with NLP, then classifies it using the best-performing algorithm.</p>
+        </div>
+
+        <div class="step-card reveal reveal-delay-3">
+          <div class="step-number">3</div>
+          <div class="step-icon">📊</div>
+          <h3 class="step-title">Get Results</h3>
+          <p class="step-desc">See the verdict with confidence score, severity level, and detailed category breakdown instantly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ History Section ═══ -->
+  <section class="section history" id="history-section">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div class="section-label">📜 History</div>
+        <h2 class="section-title">Recent Analyses</h2>
+        <p class="section-subtitle">Your recent text analyses are stored locally. Click any to re-analyze.</p>
+      </div>
+
+      <div class="history-container reveal reveal-delay-1" id="historySection">
+        <div class="history-top">
+          <span class="history-title">Analysis History</span>
+          <button class="btn-clear-history" id="btnClearHistory">Clear All</button>
+        </div>
+        <div class="history-list" id="historyList"></div>
+      </div>
+
+      <div class="history-empty reveal" id="historyEmpty">
+        <p style="color: var(--text-muted); font-size: 14px; text-align: center;">
+          No analyses yet. Try analyzing some text above! ☝️
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Extension CTA ═══ -->
+  <section class="section extension-cta" id="extension">
+    <div class="section-inner">
+      <div class="extension-card reveal">
+        <div class="extension-icon">🧩</div>
+        <h2 class="extension-title">Get the Chrome Extension</h2>
+        <p class="extension-desc">
+          Analyze text directly on any webpage with our Chrome extension. Right-click any selected text for instant analysis.
+        </p>
+
+        <div class="extension-steps">
+          <div class="extension-step">
+            <span class="extension-step-num">1</span>
+            <span>Open <strong>chrome://extensions/</strong> in Chrome</span>
+          </div>
+          <div class="extension-step">
+            <span class="extension-step-num">2</span>
+            <span>Enable <strong>Developer mode</strong> (top right)</span>
+          </div>
+          <div class="extension-step">
+            <span class="extension-step-num">3</span>
+            <span>Click <strong>Load unpacked</strong> → select the <code>extension/</code> folder</span>
+          </div>
+          <div class="extension-step">
+            <span class="extension-step-num">4</span>
+            <span>The 🛡️ icon will appear in your toolbar!</span>
+          </div>
+        </div>
+
+        <a href="#analyzer" class="btn btn-primary">Try the Web Version Instead →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Tech Stack ═══ -->
+  <section class="section" id="tech-stack">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div class="section-label">🔧 Stack</div>
+        <h2 class="section-title">Built With</h2>
+      </div>
+
+      <div class="tech-badges reveal reveal-delay-1">
+        <span class="tech-badge"><span class="tech-badge-icon">🐍</span> Python</span>
+        <span class="tech-badge"><span class="tech-badge-icon">🧬</span> scikit-learn</span>
+        <span class="tech-badge"><span class="tech-badge-icon">🚀</span> XGBoost</span>
+        <span class="tech-badge"><span class="tech-badge-icon">📝</span> NLTK</span>
+        <span class="tech-badge"><span class="tech-badge-icon">🔥</span> Flask</span>
+        <span class="tech-badge"><span class="tech-badge-icon">📊</span> TF-IDF</span>
+        <span class="tech-badge"><span class="tech-badge-icon">🌐</span> Chrome Extension</span>
+        <span class="tech-badge"><span class="tech-badge-icon">⚡</span> REST API</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Footer ═══ -->
+  <footer class="footer">
+    <div class="footer-brand">
+      <span class="footer-brand-icon">🛡️</span>
+      <span class="footer-brand-text">Cyber Shield</span>
+    </div>
+    <p class="footer-tagline">AI-Powered Cyberbullying Detection System</p>
+    <div class="footer-divider"></div>
+    <p class="footer-copy">
+      Built for educational purposes — <a href="#">VIT Bhopal University</a>
+    </p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

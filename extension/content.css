@@ -1,0 +1,128 @@
+/* ═══════════════════════════════════════════════════════════
+   Cyber Shield — Content Script Styles
+   Overlay and badge styles injected into social media pages
+   ═══════════════════════════════════════════════════════════ */
+
+/* Flagged element highlight */
+.cyber-shield-flagged {
+  border-left: 3px solid #ef4444 !important;
+  background: rgba(239, 68, 68, 0.06) !important;
+  border-radius: 4px !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Warning overlay */
+.cyber-shield-overlay {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+  animation: cyberShieldSlideIn 0.3s ease;
+}
+
+@keyframes cyberShieldSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Badge */
+.cyber-shield-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Severity colors */
+.cyber-shield-high .cyber-shield-badge {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(249, 115, 22, 0.15));
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+
+.cyber-shield-medium .cyber-shield-badge {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(251, 146, 60, 0.15));
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #fcd34d;
+}
+
+.cyber-shield-low .cyber-shield-badge {
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(99, 102, 241, 0.15));
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  color: #67e8f9;
+}
+
+.cyber-shield-icon {
+  font-size: 13px;
+}
+
+.cyber-shield-label {
+  letter-spacing: 0.3px;
+}
+
+/* Dismiss button */
+.cyber-shield-dismiss {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 10px;
+  line-height: 1;
+  transition: all 0.2s ease;
+  padding: 0;
+  margin-left: 4px;
+}
+
+.cyber-shield-dismiss:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+/* Light mode support */
+@media (prefers-color-scheme: light) {
+  .cyber-shield-flagged {
+    background: rgba(239, 68, 68, 0.04) !important;
+  }
+  
+  .cyber-shield-high .cyber-shield-badge {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(249, 115, 22, 0.1));
+    color: #dc2626;
+  }
+  
+  .cyber-shield-medium .cyber-shield-badge {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 146, 60, 0.1));
+    color: #d97706;
+  }
+  
+  .cyber-shield-low .cyber-shield-badge {
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.1), rgba(99, 102, 241, 0.1));
+    color: #4f46e5;
+  }
+  
+  .cyber-shield-dismiss {
+    background: rgba(0, 0, 0, 0.08);
+    color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .cyber-shield-dismiss:hover {
+    background: rgba(0, 0, 0, 0.15);
+    color: rgba(0, 0, 0, 0.7);
+  }
+}

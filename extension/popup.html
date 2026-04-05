@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber Shield</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <span class="shield-icon">🛡️</span>
+      <div>
+        <h1 class="title">Cyber Shield</h1>
+        <span class="tagline">AI-Powered Text Analyzer</span>
+      </div>
+    </div>
+    <div class="api-dot" id="apiDot" title="API Status"></div>
+  </header>
+
+  <!-- Input Section -->
+  <div class="input-section">
+    <textarea 
+      id="inputText" 
+      placeholder="Paste or type any text here to analyze..."
+      rows="4"
+      spellcheck="false"
+    ></textarea>
+    <div class="input-footer">
+      <span class="char-count" id="charCount">0 chars</span>
+      <div class="btn-group">
+        <button class="btn-clear" id="btnClear" title="Clear">✕</button>
+        <button class="btn-analyze" id="btnAnalyze">
+          <span class="btn-text">Analyze</span>
+          <span class="btn-icon">→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Result Section -->
+  <div class="result-section" id="resultSection">
+    <!-- Empty state -->
+    <div class="result-empty" id="resultEmpty">
+      <div class="empty-icon">🔍</div>
+      <p>Paste text above and click <strong>Analyze</strong></p>
+      <p class="hint">or <strong>select text → right-click → Cyber Shield</strong></p>
+    </div>
+
+    <!-- Loading state -->
+    <div class="result-loading hide" id="resultLoading">
+      <div class="spinner"></div>
+      <p>Analyzing...</p>
+    </div>
+
+    <!-- Result card -->
+    <div class="result-card hide" id="resultCard">
+      <!-- Main verdict -->
+      <div class="verdict" id="verdict">
+        <span class="verdict-icon" id="verdictIcon">✅</span>
+        <span class="verdict-label" id="verdictLabel">Safe</span>
+      </div>
+
+      <!-- Confidence bar -->
+      <div class="confidence-section">
+        <div class="confidence-header">
+          <span>Confidence</span>
+          <span class="confidence-value" id="confidenceValue">0%</span>
+        </div>
+        <div class="confidence-bar">
+          <div class="confidence-fill" id="confidenceFill"></div>
+        </div>
+      </div>
+
+      <!-- Category breakdown -->
+      <div class="categories" id="categories">
+        <div class="category-item" data-cat="safe">
+          <span class="cat-dot safe"></span>
+          <span class="cat-name">Safe</span>
+          <span class="cat-score" id="scoreSafe">—</span>
+        </div>
+        <div class="category-item" data-cat="bullying">
+          <span class="cat-dot bullying"></span>
+          <span class="cat-name">Bullying</span>
+          <span class="cat-score" id="scoreBullying">—</span>
+        </div>
+        <div class="category-item" data-cat="toxic">
+          <span class="cat-dot toxic"></span>
+          <span class="cat-name">Toxic</span>
+          <span class="cat-score" id="scoreToxic">—</span>
+        </div>
+        <div class="category-item" data-cat="spam">
+          <span class="cat-dot spam"></span>
+          <span class="cat-name">Spam</span>
+          <span class="cat-score" id="scoreSpam">—</span>
+        </div>
+        <div class="category-item" data-cat="scam">
+          <span class="cat-dot scam"></span>
+          <span class="cat-name">Scam</span>
+          <span class="cat-score" id="scoreScam">—</span>
+        </div>
+      </div>
+
+      <!-- Analyzed text preview -->
+      <div class="analyzed-text">
+        <span class="at-label">Analyzed:</span>
+        <span class="at-text" id="analyzedText"></span>
+      </div>
+    </div>
+
+    <!-- Error state -->
+    <div class="result-error hide" id="resultError">
+      <span class="error-icon">⚠️</span>
+      <p class="error-msg" id="errorMsg">Something went wrong</p>
+      <p class="error-hint">Make sure the API server is running:<br><code>python api/server.py</code></p>
+    </div>
+  </div>
+
+  <!-- History -->
+  <div class="history-section" id="historySection">
+    <div class="history-header">
+      <span>Recent</span>
+      <button class="btn-clear-history" id="btnClearHistory">Clear all</button>
+    </div>
+    <div class="history-list" id="historyList"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
