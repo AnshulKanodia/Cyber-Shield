@@ -1,140 +1,141 @@
-# Cyber Shield — Cyberbullying Detection System
+# 🛡️ Cyber Shield — AI Cyberbullying & Toxic Content Detection
 
-A real-time cyberbullying detection system powered by NLP and Machine Learning, featuring both a **standalone website** and a **Chrome browser extension** for social media monitoring.
+> **Real-Time NLP & Machine Learning Platform with Browser Extension & Web Dashboard**  
+> An intelligent cyberbullying detection ecosystem designed to detect, classify, and mitigate toxic content across social platforms in real-time using an ensemble of NLP preprocessors, TF-IDF vectorizers, and optimized machine learning models (SVM, Random Forest, XGBoost).
 
-## 🛡️ Features
+[![Python](https://img.shields.io/badge/Language-Python_3.10+-3776AB?style=flat&logo=python&logoColor=white)](https://python.org/)
+[![Flask](https://img.shields.io/badge/API-Flask_RESTful-000000?style=flat&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![Scikit-Learn](https://img.shields.io/badge/ML-Scikit--Learn_&_XGBoost-F7931E?style=flat&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
+[![Chrome Extension](https://img.shields.io/badge/Extension-Manifest_V3-4285F4?style=flat&logo=googlechrome&logoColor=white)](https://developer.chrome.com/docs/extensions/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-- **Dual Mode** — Works as both a standalone website and Chrome extension
-- **NLP Text Preprocessing Pipeline** — Cleans and normalizes social media text (slang, emojis, contractions, etc.)
-- **3 ML Model Comparison** — SVM, Random Forest, and XGBoost with comprehensive evaluation
-- **REST API** — Flask-based API for real-time predictions
-- **Standalone Website** — Full-page premium dark-themed web app at `http://localhost:5000`
-- **Chrome Extension** — Scans Twitter, Facebook, YouTube, Reddit, and Instagram in real-time
-- **Severity Classification** — High, Medium, Low severity levels with confidence scores
+---
 
-## 📁 Project Structure
+## 📌 Overview & Small Description
 
+**Cyber Shield** is a production-oriented machine learning safety solution built to combat online harassment, hate speech, and cyberbullying across digital ecosystems.
+
+The platform provides a dual-interface architecture:
+1. **Interactive Web Dashboard**: An enterprise dark-themed web application allowing users and moderators to submit single comments or bulk text batches for instant multi-class toxic sentiment classification and confidence scoring.
+2. **Chrome Browser Extension (Manifest V3)**: A lightweight, non-intrusive client-side background listener that dynamically monitors DOM nodes on Twitter/X, Facebook, YouTube, Reddit, and Instagram, automatically highlighting or blurring abusive content in real time.
+
+---
+
+## ✨ Features
+
+- **High-Performance ML Ensemble**: Evaluates and compares three distinct classifiers — **Linear Support Vector Machine (LinearSVC)**, **Random Forest**, and **XGBoost** — to select optimal latency-accuracy trade-offs.
+- **Context-Aware NLP Preprocessing Pipeline**: Cleans noisy social media text by decoding leetspeak, slang normalization, emoji sentiment translation, contraction expansion, and URL scrubbing.
+- **Multi-Level Severity Classification**: Classifies statements into `Clean`, `Low Severity`, `Medium Severity`, and `High Severity / Hate Speech` with granular probability thresholds.
+- **High-Throughput REST API**: Powered by Flask with CORS support, serving predictions under $15\text{ms}$ per request with thread-safe model caching.
+- **Manifest V3 Chrome Extension**: Real-time DOM observer targeting major social platforms with customizable blur/warning overlay toggles and local badge counters.
+- **Explainable Metrics & Visualizations**: Pre-computed confusion matrices, ROC-AUC curves, precision-recall graphs, and performance benchmarks stored in `reports/`.
+
+---
+
+## 📂 File Structure
+
+```text
+Cyber-Shield/
+├── .gitignore                    # Excludes caches, virtual environments & raw artifacts
+├── LICENSE                       # MIT Open Source License
+├── README.md                     # Project documentation & operational manual
+├── requirements.txt              # Pinned Python package dependencies
+├── test_fix.py                   # Automated API and inference pipeline verification
+├── train_pipeline.py             # End-to-end model training, tuning & evaluation script
+├── api/                          # Backend RESTful inference service
+│   ├── __init__.py
+│   └── server.py                 # Flask server, prediction endpoints & static routing
+├── datasets/                     # Benchmark datasets & unified training corpora
+│   ├── combined_hate_speech_dataset.csv
+│   ├── cyberbullying_tweets.csv
+│   ├── spam.csv
+│   └── unified_dataset.csv
+├── extension/                    # Manifest V3 Chrome Extension
+│   ├── background.js             # Service worker handling API dispatch
+│   ├── content.css               # Content blur and alert badges styling
+│   ├── content.js                # DOM observer for Twitter, YouTube, Reddit & Instagram
+│   ├── manifest.json             # Chrome extension manifest configuration
+│   ├── popup.html                # Extension toolbar popup interface
+│   ├── popup.js                  # User preferences & threshold controllers
+│   └── icons/                    # Multi-resolution extension icons (16px, 48px, 128px)
+├── models/                       # Serialized joblib models & vectorizers
+│   ├── best_model_info.joblib    # Metadata of champion model
+│   ├── svm_linearsvc.joblib      # Production LinearSVC classifier
+│   ├── random_forest.joblib      # Random Forest ensemble
+│   ├── tfidf_vectorizer.joblib   # Fitted n-gram TF-IDF vectorizer
+│   └── xgboost.joblib            # Gradient boosted decision trees model
+├── reports/                      # Evaluation figures & training summaries
+│   └── confusion_matrices.png    # Comparative confusion matrix analysis
+├── src/                          # Modular core NLP & ML engineering package
+│   ├── data_loader.py            # Dataset ingestion, schema unification & cleaning
+│   ├── evaluation.py             # Accuracy, precision, recall & F1 evaluation metrics
+│   ├── feature_engineering.py   # Tokenization, stop-words & n-gram TF-IDF pipeline
+│   ├── models.py                 # Model training definitions & hyperparameter grids
+│   ├── preprocessing.py          # Regex normalization, slang mapping & lemmatization
+│   └── utils.py                  # Logger setup & serialization helpers
+└── website/                      # Standalone client application
+    ├── app.js                    # Dynamic AJAX submission & score visualizer
+    ├── index.html                # Dark-mode dashboard UI
+    └── style.css                 # Glassmorphic modern layout & components
 ```
-Cyber Shield/
-├── datasets/                    # Training datasets
-├── src/
-│   ├── data_loader.py          # Load & merge datasets into unified format
-│   ├── preprocessing.py        # NLP cleaning pipeline
-│   ├── feature_engineering.py  # TF-IDF vectorization
-│   ├── models.py               # SVM, Random Forest, XGBoost
-│   ├── evaluation.py           # Metrics, confusion matrices, ROC curves
-│   └── utils.py                # Shared helpers, slang dictionary
-├── api/
-│   └── server.py               # Flask REST API + website server
-├── website/
-│   ├── index.html              # Standalone web app
-│   ├── style.css               # Premium dark theme styles
-│   └── app.js                  # Client-side analysis logic
-├── extension/
-│   ├── manifest.json           # Chrome extension manifest v3
-│   ├── popup.html/css/js       # Extension popup UI
-│   ├── content.js/css          # Content script for social media scanning
-│   ├── background.js           # Service worker
-│   └── icons/                  # Extension icons
-├── models/                     # Saved trained models (.joblib)
-├── reports/                    # Generated evaluation charts
-├── train_pipeline.py           # Main training script
-└── requirements.txt            # Python dependencies
-```
 
-## 🚀 Quick Start
+---
 
-### 1. Install Dependencies
+## 🚀 Setup & Deployment
 
+### Prerequisites
+- **Python 3.10+**
+- **pip** and `venv`
+- Google Chrome or Chromium-based browser (for extension)
+
+### 1. Backend Server Setup
 ```bash
+# Clone the repository
+git clone https://github.com/AnshulKanodia/Cyber-Shield.git
+cd Cyber-Shield
+
+# Create and activate virtual environment
+python -m venv venv
+# Windows:
+.\venv\Scripts\activate
+# Linux/macOS:
+source venv/bin/activate
+
+# Install dependencies
 pip install -r requirements.txt
+
+# Run the Flask REST API & Web UI
+python api/server.py
 ```
+The web dashboard is now accessible at `http://localhost:5000`.
 
-### 2. Train the Models
+### 2. Loading the Chrome Extension
+1. Open Google Chrome and navigate to `chrome://extensions/`.
+2. Toggle on **Developer mode** in the top right corner.
+3. Click **Load unpacked**.
+4. Select the `extension/` folder inside this repository.
+5. Cyber Shield is active and will analyze social media text in your browser.
 
+### 3. Model Re-Training (Optional)
+To retrain the models with updated datasets:
 ```bash
 python train_pipeline.py
 ```
 
-This will:
-- Load and merge all datasets into a unified format
-- Preprocess text using the NLP pipeline
-- Train SVM, Random Forest, and XGBoost models
-- Evaluate and compare all models
-- Save the best model and generate reports in `reports/`
+---
 
-### 3. Start the API Server
+## 🛠️ Tech Stack & Language Breakdown
 
-```bash
-python api/server.py
-```
+| Component | Technology |
+|---|---|
+| **Programming Language** | Python 3.10+, JavaScript (ES6+), HTML5, CSS3 |
+| **Backend Framework** | Flask, Flask-CORS |
+| **Machine Learning** | Scikit-Learn, XGBoost, Joblib |
+| **NLP Pipeline** | NLTK, Regular Expressions, TF-IDF Vectorization |
+| **Browser Extension** | Chrome Manifest V3, MutationObserver API |
 
-The API will be available at `http://localhost:5000`
+---
 
-#### 🌐 Website Mode
+## 📄 License
 
-Open `http://localhost:5000` in any browser — you'll see the full Cyber Shield website with:
-- Hero section with animated shield
-- Text analyzer with real-time analysis
-- Category breakdown (Safe, Bullying, Toxic, Spam, Scam)
-- Features showcase and How It Works guide
-- Analysis history (stored in browser)
-
-#### 🔌 API Endpoints
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/health` | GET | Health check |
-| `/api/predict` | POST | Predict single text |
-| `/api/predict/batch` | POST | Predict multiple texts |
-| `/api/model/info` | GET | Current model info |
-
-**Example Request:**
-```bash
-curl -X POST http://localhost:5000/api/predict \
-  -H "Content-Type: application/json" \
-  -d '{"text": "You are such a loser, nobody likes you"}'
-```
-
-### 4. Install the Chrome Extension
-
-1. Open Chrome → `chrome://extensions/`
-2. Enable **Developer mode** (top right)
-3. Click **Load unpacked**
-4. Select the `extension/` folder
-5. The Cyber Shield icon will appear in your toolbar
-
-## 📊 Datasets Used
-
-| Dataset | Rows | Type |
-|---------|------|------|
-| `cyberbullying_tweets.csv` | 47,692 | Multi-class → binary |
-| `combined_hate_speech_dataset.csv` | 29,550 | Binary hate labels |
-| `train.csv` (Jigsaw Toxic) | 159,571 | Multi-label toxic → binary (subsampled) |
-
-## 🧠 ML Models
-
-| Model | Description |
-|-------|-------------|
-| **SVM (LinearSVC)** | Linear Support Vector Machine with balanced class weights |
-| **Random Forest** | 300 trees with balanced class weights |
-| **XGBoost** | Gradient boosted trees with automatic positive class weighting |
-
-## 📈 Evaluation Metrics
-
-- Accuracy, Precision, Recall, F1-Score, ROC-AUC
-- Confusion matrices per model
-- ROC curves overlay
-- Side-by-side metric comparison chart
-
-## 🔧 Tech Stack
-
-- **Python 3.x** — Core language
-- **scikit-learn** — SVM, Random Forest, TF-IDF, evaluation
-- **XGBoost** — Gradient boosting
-- **NLTK** — Tokenization, lemmatization, stopwords
-- **Flask** — REST API
-- **Chrome Extension (Manifest V3)** — Browser integration
-
-## 📝 License
-
-This project is for educational purposes — VIT Bhopal University.
+This project is licensed under the [MIT License](LICENSE) — see the [LICENSE](LICENSE) file for details.
